@@ -1,4 +1,5 @@
 using Interfaces;
+using Management;
 using UnityEngine;
 
 namespace Objects
@@ -9,7 +10,9 @@ namespace Objects
     
         protected Rigidbody animalRigidbody;
 
-        //TODO: Add movement and boundaries checks.
+        //TODO: Add movement checks.
+        
+        protected IBoundariesManager boundariesManager;
         protected AnimalStats stats;
         protected bool isAlive = true;
     
@@ -25,6 +28,9 @@ namespace Objects
                 animalRigidbody = gameObject.AddComponent<Rigidbody>();
                 animalRigidbody.freezeRotation = true;
             }
+            
+            //TODO: Remove debug numbers.
+            boundariesManager = new BoundariesManager(10f, 10f);
         }
     
         protected virtual void Start()
@@ -41,9 +47,22 @@ namespace Objects
         {
             if (!isAlive) return;
             
+            HandleBoundariesCheck();
             Move();
         }
 
+        private void HandleBoundariesCheck()
+        {
+            if (boundariesManager.IsOutOfBounds(transform.position))
+            {
+                Vector3 redirectDirection = boundariesManager.GetRedirectDirection(transform.position);
+                animalRigidbody.velocity = new Vector3(
+                    redirectDirection.x * stats.moveSpeed, 
+                    animalRigidbody.velocity.y, 
+                    redirectDirection.z * stats.moveSpeed
+                );
+            }
+        }
 
         public virtual void Move()
         {
