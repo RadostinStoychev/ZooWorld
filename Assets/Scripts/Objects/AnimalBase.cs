@@ -50,7 +50,10 @@ namespace Objects
         
         protected virtual void Update()
         {
-            if (!isAlive) return;
+            if (!isAlive)
+            {
+                return;
+            }
             
             HandleBoundariesCheck();
             Move();
@@ -76,7 +79,10 @@ namespace Objects
     
         public virtual void Die()
         {
-            if (!isAlive) return;
+            if (!isAlive)
+            {
+                return;
+            }
         
             isAlive = false;
             ZooActions.AnimalDied(animalType);
@@ -87,10 +93,16 @@ namespace Objects
     
         protected virtual void OnTriggerEnter(Collider other)
         {
-            if (!isAlive) return;
+            if (!isAlive)
+            {
+                return;
+            }
         
             var otherAnimal = other.GetComponent<IAnimal>();
-            if (otherAnimal == null || !otherAnimal.IsAlive) return;
+            if (otherAnimal == null || !otherAnimal.IsAlive)
+            {
+                return;
+            }
         
             if (this is ICollidable collidable)
             {
