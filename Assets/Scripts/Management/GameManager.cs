@@ -20,6 +20,8 @@ namespace Management
     
         //TODO: Add UI controller.
         [Header("Dependencies")]
+        [SerializeField] 
+        private UIManager uiManager;
 
         private ISpawnHandling spawnManager;
         private float nextSpawnTime;
@@ -41,6 +43,7 @@ namespace Management
         {
             animalFactory.Initialize();
             spawnManager = new SpawnManager(animalFactory.GetAnimalPrefabs(), spawnRadius, baseSpawnInterval);
+            uiManager?.Initialize();
             SetNextSpawnTime();
         }
     
