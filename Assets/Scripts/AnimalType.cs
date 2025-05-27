@@ -3,6 +3,7 @@
 /// </summary>
 public enum AnimalType
 {
+    None,
     Frog,
     Snake
 }
