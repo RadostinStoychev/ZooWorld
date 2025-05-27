@@ -4,21 +4,22 @@ using UnityEngine;
 
 namespace Objects
 {
+    /// <summary>
+    /// Class defining animal base functionality.
+    /// </summary>
     public abstract class AnimalBase : MonoBehaviour, IAnimal
     {
         [SerializeField] protected AnimalType animalType;
     
         protected Rigidbody animalRigidbody;
-
-        //TODO: Add movement checks.
-        
+        protected IMovementBehavior movementBehavior;
         protected IBoundariesManager boundariesManager;
         protected AnimalStats stats;
         protected bool isAlive = true;
     
         public AnimalType Type => animalType;
         public bool IsAlive => isAlive;
-        public AnimalType AnimalType => animalType; // For factory
+        public AnimalType AnimalType => animalType;
     
         protected virtual void Awake()
         {
@@ -31,6 +32,7 @@ namespace Objects
             
             //TODO: Remove debug numbers.
             boundariesManager = new BoundariesManager(10f, 10f);
+            InitializeMovementBehavior();
         }
     
         protected virtual void Start()
@@ -41,8 +43,11 @@ namespace Objects
         public virtual void Initialize(AnimalStats stats)
         {
             this.stats = stats;
+            movementBehavior?.Initialize(stats);
         }
 
+        protected abstract void InitializeMovementBehavior();
+        
         protected virtual void Update()
         {
             if (!isAlive) return;
@@ -66,7 +71,7 @@ namespace Objects
 
         public virtual void Move()
         {
-            //TODO: Handle movement.
+            movementBehavior?.Move(transform, animalRigidbody, Time.deltaTime);
         }
     
         public virtual void Die()
@@ -74,6 +79,8 @@ namespace Objects
             if (!isAlive) return;
         
             isAlive = false;
+            
+            //TODO: Add object pool.
             Destroy(gameObject, 0.1f);
         }
     
