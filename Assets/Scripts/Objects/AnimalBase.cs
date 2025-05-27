@@ -37,7 +37,7 @@ namespace Objects
     
         protected virtual void Start()
         {
-            //TODO: Set actions.
+            ZooActions.AnimalSpawned(this);
         }
     
         public virtual void Initialize(AnimalStats stats)
@@ -79,6 +79,7 @@ namespace Objects
             if (!isAlive) return;
         
             isAlive = false;
+            ZooActions.AnimalDied(animalType);
             
             //TODO: Add object pool.
             Destroy(gameObject, 0.1f);

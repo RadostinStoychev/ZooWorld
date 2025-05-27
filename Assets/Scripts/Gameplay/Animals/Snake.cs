@@ -1,4 +1,5 @@
 using Interfaces;
+using Management;
 using Objects;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Gameplay.Animals
     public class Snake : AnimalBase, IPredator
     {
         private const float PredatorTypeCannibalismChance = 0.5f;
+        private const string PredatorConsumeMessage = "Tasty!";
         
         protected override void InitializeMovementBehavior()
         {
@@ -38,6 +40,7 @@ namespace Gameplay.Animals
         public void Consume(IAnimal prey)
         {
             prey.Die();
+            ZooActions.MessageSpawned(transform.position, PredatorConsumeMessage);
         }
     }
 }
