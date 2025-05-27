@@ -5,7 +5,7 @@ namespace Interfaces
     /// </summary>
     public interface ICollidable
     {
-        void HandleCollision(IAnimal other);
+        void HandleCollision(IAnimal collidingAnimal);
     }
 }
 
