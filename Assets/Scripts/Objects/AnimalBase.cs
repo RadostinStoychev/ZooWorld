@@ -8,9 +8,8 @@ namespace Objects
     /// Class defining animal base functionality.
     /// </summary>
     public abstract class AnimalBase : MonoBehaviour, IAnimal
-    {
-        [SerializeField] protected AnimalType animalType;
-    
+    { 
+        protected AnimalType animalType;
         protected Rigidbody animalRigidbody;
         protected IMovementBehavior movementBehavior;
         protected IBoundariesManager boundariesManager;

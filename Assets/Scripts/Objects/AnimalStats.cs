@@ -7,7 +7,5 @@ namespace Objects
     public struct AnimalStats
     {
         public float moveSpeed;
-        public float health;
-        public float detectionRange;
     }
 }
