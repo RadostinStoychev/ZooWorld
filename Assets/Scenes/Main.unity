@@ -739,7 +739,7 @@ MonoBehaviour:
         moveSpeed: 2
     initialPoolSize: 5
     maxPoolSize: 5
-  baseSpawnInterval: 1
+  baseSpawnInterval: 2
   spawnRadius: 8
   uiManager: {fileID: 1871228538}
   floatingMessagesManager: {fileID: 1439908412}

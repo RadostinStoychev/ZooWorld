@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Management
 {
@@ -14,16 +13,26 @@ namespace Management
             { AnimalType.Snake, true } 
         };
     
+        /// <summary>
+        /// Returns true if provided type is Predator.
+        /// </summary>
         public static bool IsPredator(AnimalType animalType)
         {
             return PredatorsMap.ContainsKey(animalType) && PredatorsMap[animalType];
         }
     
+        /// <summary>
+        /// Returns true if provided type is Prey.
+        /// </summary>
         public static bool IsPrey(AnimalType animalType)
         {
             return PredatorsMap.ContainsKey(animalType) && !PredatorsMap[animalType];
         }
 
+        /// <summary>
+        /// Returns all present animal types.
+        /// </summary>
+        /// <returns></returns>
         public static List<AnimalType> GetAllAnimalTypes()
         {
             return new List<AnimalType>(PredatorsMap.Keys);

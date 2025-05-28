@@ -24,6 +24,9 @@ namespace Management
             totalWeight = settings.Sum(s => s.spawnWeight);
         }
     
+        /// <summary>
+        /// Returns animal type based on probability weight.
+        /// </summary>
         public AnimalType GetNextAnimalType()
         {
             var randomValue = Random.Range(0f, totalWeight);
@@ -42,6 +45,9 @@ namespace Management
             return AnimalType.None;
         }
     
+        /// <summary>
+        /// Returns animal spawn position based on specified radius.
+        /// </summary>
         public Vector3 GetSpawnPosition()
         {
             var x = Random.Range(-spawnRadius, spawnRadius);
@@ -49,6 +55,9 @@ namespace Management
             return new Vector3(x, 0.5f, z);
         }
     
+        /// <summary>
+        /// Returns spawn interval randomly.
+        /// </summary>
         public float GetSpawnInterval()
         {
             return baseSpawnInterval + Random.Range(-0.5f, 0.5f);
