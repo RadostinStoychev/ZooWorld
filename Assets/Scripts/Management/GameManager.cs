@@ -17,11 +17,12 @@ namespace Management
         private float baseSpawnInterval = 1.5f;
         [SerializeField] 
         private float spawnRadius = 8f;
-    
-        //TODO: Add UI controller.
+        
         [Header("Dependencies")]
         [SerializeField] 
         private UIManager uiManager;
+        [SerializeField] 
+        private FloatingMessagesManager floatingMessagesManager;
 
         private ISpawnHandling spawnManager;
         private float nextSpawnTime;
