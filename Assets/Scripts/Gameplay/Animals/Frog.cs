@@ -1,4 +1,5 @@
 using Interfaces;
+using Management;
 using Objects;
 using UnityEngine;
 
@@ -13,20 +14,17 @@ namespace Gameplay.Animals
         {
             movementBehavior = new AnimalJumpMovement();
         }
-    
+
         public void HandleCollision(IAnimal collidingAnimal)
         {
-            switch (collidingAnimal)
+            if (AnimalClassification.IsPredator(collidingAnimal.Type))
             {
-                case IPredator:
-                    Die();
-                    break;
-                case IPrey:
-                {
-                    Vector3 pushDirection = (transform.position - ((MonoBehaviour)collidingAnimal).transform.position).normalized;
-                    animalRigidbody.AddForce(pushDirection * 3f, ForceMode.Impulse);
-                    break;
-                }
+                Die();
+            }
+            else if (AnimalClassification.IsPrey(collidingAnimal.Type))
+            {
+                Vector3 pushDirection = (transform.position - ((MonoBehaviour)collidingAnimal).transform.position).normalized;
+                animalRigidbody.AddForce(pushDirection * 3f, ForceMode.Impulse);
             }
         }
     

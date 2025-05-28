@@ -20,7 +20,7 @@ namespace Gameplay.Animals
     
         public void HandleCollision(IAnimal collidingAnimal)
         {
-            if (collidingAnimal is IPredator)
+            if (AnimalClassification.IsPredator(collidingAnimal.Type))
             {
                 if (Random.Range(0f, 1f) < PredatorTypeCannibalismChance)
                 {
@@ -31,7 +31,7 @@ namespace Gameplay.Animals
                     collidingAnimal.Die();
                 }
             }
-            else if (collidingAnimal is IPrey)
+            else if (AnimalClassification.IsPrey(collidingAnimal.Type))
             {
                 Consume(collidingAnimal);
             }

@@ -12,6 +12,7 @@ namespace Objects
         private const float LevelBoundaryX = 10f;
         private const float LevelBoundaryZ = 10f;
         
+        [SerializeField]
         protected AnimalType animalType;
         protected Rigidbody animalRigidbody;
         protected IMovementBehavior movementBehavior;
@@ -35,22 +36,14 @@ namespace Objects
             boundariesManager = new BoundariesManager(LevelBoundaryX, LevelBoundaryZ);
             InitializeMovementBehavior();
         }
-    
-        protected virtual void Start()
-        {
-            if (isAlive)
-            {
-                ZooActions.AnimalSpawned(this);
-            }
-        }
-    
-        public virtual void Initialize(AnimalStats animalStats)
+
+        public void Initialize(AnimalStats animalStats)
         {
             stats = animalStats;
             movementBehavior?.Initialize(animalStats);
         }
         
-        public virtual void ResetAnimal()
+        public void ResetAnimal()
         {
             isAlive = true;
             
@@ -61,7 +54,6 @@ namespace Objects
             }
             
             movementBehavior?.Initialize(stats);
-            ZooActions.AnimalSpawned(this);
         }
 
         protected abstract void InitializeMovementBehavior();

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Interfaces;
 using TMPro;
 using UnityEngine;
@@ -24,16 +25,18 @@ namespace Management
     
         public void Initialize()
         {
-            deathsCount = new Dictionary<AnimalType, int>
+            deathsCount = new Dictionary<AnimalType, int>();
+            
+            var allAnimalTypes = AnimalClassification.GetAllAnimalTypes();
+            foreach (var animalType in allAnimalTypes)
             {
-                { AnimalType.Frog, 0 },
-                { AnimalType.Snake, 0 }
-            };
+                deathsCount[animalType] = 0;
+            }
         
             UpdateInterface();
             ZooActions.OnAnimalDied += OnAnimalDied;
         }
-    
+
         private void OnDestroy()
         {
             ZooActions.OnAnimalDied -= OnAnimalDied;
@@ -41,11 +44,13 @@ namespace Management
     
         private void OnAnimalDied(AnimalType type)
         {
-            if (deathsCount.ContainsKey(type))
+            if (!deathsCount.ContainsKey(type))
             {
-                deathsCount[type]++;
-                UpdateDeadCount(type, deathsCount[type]);
+                deathsCount[type] = 0;
             }
+        
+            deathsCount[type]++;
+            UpdateDeadCount(type, deathsCount[type]);
         }
     
         public void UpdateDeadCount(AnimalType type, int count)
@@ -55,17 +60,24 @@ namespace Management
     
         private void UpdateInterface()
         {
-            //TODO: Update to handle bigger amount of animals. For example more than 1 prey.
+            var totalPreyDeaths = GetTotalDeathsByCategory(false); 
+            var totalPredatorDeaths = GetTotalDeathsByCategory(true);
             
             if (preyDeathsCountText != null)
             {
-                preyDeathsCountText.text = String.Format(PreyDeathsCountTextTemplate, deathsCount[AnimalType.Frog]);
+                preyDeathsCountText.text = String.Format(PreyDeathsCountTextTemplate, totalPreyDeaths);
             }
-
+        
             if (predatorDeathsCountText != null)
             {
-                predatorDeathsCountText.text = String.Format(PredatorDeathsCountTextTemplate, deathsCount[AnimalType.Snake]);
+                predatorDeathsCountText.text = String.Format(PredatorDeathsCountTextTemplate, totalPredatorDeaths);
             }
+        }
+        
+        private int GetTotalDeathsByCategory(bool isPredator)
+        {
+            return (from kvp in deathsCount let animalType = kvp.Key let deaths = kvp.Value 
+                where AnimalClassification.IsPredator(animalType) == isPredator select deaths).Sum();
         }
     }
 }

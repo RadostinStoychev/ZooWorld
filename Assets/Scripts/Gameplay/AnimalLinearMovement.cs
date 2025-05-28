@@ -9,7 +9,7 @@ namespace Gameplay
     /// </summary>
     public class AnimalLinearMovement : IMovementBehavior
     {
-        private const float LinearDirectionChangeChance = 0.02f;
+        private const float LinearDirectionChangeChance = 0.001f;
         
         private Vector3 moveDirection;
         private float movementSpeed = 2f;

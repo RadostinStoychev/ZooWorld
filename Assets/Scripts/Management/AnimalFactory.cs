@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Interfaces;
 using Objects;
 using UnityEngine;
@@ -16,7 +15,7 @@ namespace Management
     {
         private const string AnimalPoolParentTemplateName = "{0}Pool";
         private const string AnimalTypePoolNoneError = "No pool or prefab registered for animal type: {0}";
-        private const string AnimalPoolMaximumCountReachedError = "Maximum pool size reached for {0} type. Reusing oldest object.";
+        private const string AnimalPoolMaximumCountReachedError = "Maximum pool size reached for {0} type.";
         
         [Header("General")]
         [SerializeField] 
@@ -159,23 +158,7 @@ namespace Management
         }
         
         public List<SpawnSettings> GetAnimalPrefabs() => animalPrefabs;
-        
-        /// <summary>
-        /// Returns active animals count of specific type.
-        /// </summary>
-        public int GetActiveCount(AnimalType type)
-        {
-            return activeAnimals.Count(kvp => kvp.Value == type);
-        }
-        
-        /// <summary>
-        /// Returns object pools count of specific type.
-        /// </summary>
-        public int GetPooledCount(AnimalType type)
-        {
-            return objectPools.ContainsKey(type) ? objectPools[type].Count : 0;
-        }
-        
+
         private GameObject GetAnimalObjectFromPool(AnimalType type)
         {
             if (!prefabMap.ContainsKey(type))

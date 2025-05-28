@@ -31,20 +31,16 @@ namespace Management
         private void CreateFloatingMessage(Vector3 position, string message)
         {
             GameObject messageObject = new GameObject(String.Format(FloatingMessageObjectNameTemplate, message));
+            
             messageObject.transform.position = position + Vector3.down * 0.5f;
-
-            if (Camera.main != null)
-            {
-                Vector3 lookDirection = Camera.main.transform.position - messageObject.transform.position;
-                messageObject.transform.rotation = Quaternion.LookRotation(lookDirection);
-            }
+            messageObject.transform.rotation = Quaternion.Euler(90, 0, 0);
 
             TextMesh textMesh = messageObject.AddComponent<TextMesh>();
             textMesh.text = message;
             textMesh.fontSize = fontSize;
             textMesh.color = messageColor;
             textMesh.anchor = TextAnchor.MiddleCenter;
-        
+
             Destroy(messageObject, messageDuration);
         }
     }
