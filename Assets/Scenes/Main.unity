@@ -730,17 +730,19 @@ MonoBehaviour:
   animalFactory:
     animalPrefabs:
     - prefab: {fileID: 7395993504452613731, guid: e5abf3e5ad7284a41ae40560b065fe01, type: 3}
-      spawnWeight: 0.2
+      spawnWeight: 1
       stats:
         moveSpeed: 4
     - prefab: {fileID: 888229912751531457, guid: 006817488b4a649e2ad048c06b251688, type: 3}
-      spawnWeight: 0.1
+      spawnWeight: 0.5
       stats:
         moveSpeed: 2
+    initialPoolSize: 5
+    maxPoolSize: 5
   baseSpawnInterval: 4
   spawnRadius: 8
   uiManager: {fileID: 1871228538}
-  floatingMessagesManager: {fileID: 0}
+  floatingMessagesManager: {fileID: 1439908412}
 --- !u!1 &1439908410
 GameObject:
   m_ObjectHideFlags: 0

@@ -44,23 +44,24 @@ namespace Management
         {
             animalFactory.Initialize();
             spawnManager = new SpawnManager(animalFactory.GetAnimalPrefabs(), spawnRadius, baseSpawnInterval);
-            uiManager?.Initialize();
+            uiManager.Initialize();
             SetNextSpawnTime();
         }
     
         private void Update()
         {
-            if (Time.time >= nextSpawnTime)
+            if (!(Time.time >= nextSpawnTime))
             {
-                SpawnAnimal();
-                SetNextSpawnTime();
+                return;
             }
+            
+            SpawnAnimal();
+            SetNextSpawnTime();
         }
     
         private void SpawnAnimal()
         {
             AnimalType animalTypeToSpawn = spawnManager.GetNextAnimalType();
-
             if (animalTypeToSpawn == AnimalType.None)
             {
                 return;

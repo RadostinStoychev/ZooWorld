@@ -8,5 +8,6 @@ namespace Interfaces
     public interface IAnimalFactory
     {
         GameObject CreateAnimal(AnimalType type, Vector3 position);
+        void InitializePools();
     }
 }

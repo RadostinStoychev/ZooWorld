@@ -8,7 +8,10 @@ namespace Objects
     /// Class defining animal base functionality.
     /// </summary>
     public abstract class AnimalBase : MonoBehaviour, IAnimal
-    { 
+    {
+        private const float LevelBoundaryX = 10f;
+        private const float LevelBoundaryZ = 10f;
+        
         protected AnimalType animalType;
         protected Rigidbody animalRigidbody;
         protected IMovementBehavior movementBehavior;
@@ -29,20 +32,36 @@ namespace Objects
                 animalRigidbody.freezeRotation = true;
             }
             
-            //TODO: Remove debug numbers.
-            boundariesManager = new BoundariesManager(10f, 10f);
+            boundariesManager = new BoundariesManager(LevelBoundaryX, LevelBoundaryZ);
             InitializeMovementBehavior();
         }
     
         protected virtual void Start()
         {
-            ZooActions.AnimalSpawned(this);
+            if (isAlive)
+            {
+                ZooActions.AnimalSpawned(this);
+            }
         }
     
-        public virtual void Initialize(AnimalStats stats)
+        public virtual void Initialize(AnimalStats animalStats)
         {
-            this.stats = stats;
+            stats = animalStats;
+            movementBehavior?.Initialize(animalStats);
+        }
+        
+        public virtual void ResetAnimal()
+        {
+            isAlive = true;
+            
+            if (animalRigidbody != null)
+            {
+                animalRigidbody.velocity = Vector3.zero;
+                animalRigidbody.angularVelocity = Vector3.zero;
+            }
+            
             movementBehavior?.Initialize(stats);
+            ZooActions.AnimalSpawned(this);
         }
 
         protected abstract void InitializeMovementBehavior();
@@ -85,9 +104,7 @@ namespace Objects
         
             isAlive = false;
             ZooActions.AnimalDied(animalType);
-            
-            //TODO: Add object pool.
-            Destroy(gameObject, 0.1f);
+            ZooActions.AnimalReadyForPool(gameObject, animalType);
         }
     
         protected virtual void OnTriggerEnter(Collider other)
